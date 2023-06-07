@@ -9,7 +9,31 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        Text("Planary").font(.custom("Poppins-SemiBold", size: 24))
+        ZStack{
+            TabView{
+                HomeView()
+                    .tabItem(){
+                        Image(systemName: "house")
+                        Text("Today")
+                    }
+                ExploreView()
+                    .tabItem(){
+                        Image(systemName: "binoculars.fill")
+                        Text("Explore")
+                    }
+                JournalView()
+                    .tabItem(){
+                        Image(systemName: "book.closed.fill")
+                        Text("Journal")
+                    }
+                ProfileView()
+                    .tabItem(){
+                        Image(systemName: "person.crop.circle.fill")
+                        Text("Profile")
+                    }
+        }
+        
+        }
     }
 }
 
