@@ -6,8 +6,11 @@
 //
 
 import SwiftUI
-
-struct ContentView: View {
+class UserData: ObservableObject {
+    @Published var name: String = ""
+}
+struct BottomNavbarView: View {
+    
     var body: some View {
         ZStack{
             TabView{
@@ -32,13 +35,16 @@ struct ContentView: View {
                         Text("Profile")
                     }
         }
+            
         
         }
+        .navigationBarBackButtonHidden()
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        BottomNavbarView()
     }
 }
