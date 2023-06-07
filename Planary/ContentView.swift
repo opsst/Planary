@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        Text("สวัสดี").font(.custom("Inter-Regular", size: 24))
+        Text("Planary").font(.custom("Poppins-SemiBold", size: 24))
     }
 }
 

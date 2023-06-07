@@ -11,7 +11,11 @@
 		73DD38962A30D51A0010FC2E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73DD38952A30D51A0010FC2E /* ContentView.swift */; };
 		73DD38982A30D51B0010FC2E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 73DD38972A30D51B0010FC2E /* Assets.xcassets */; };
 		73DD389B2A30D51B0010FC2E /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 73DD389A2A30D51B0010FC2E /* Preview Assets.xcassets */; };
-		73DD38A42A30D5890010FC2E /* NotoSansThai-VariableFont_wdth,wght.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 73DD38A32A30D5890010FC2E /* NotoSansThai-VariableFont_wdth,wght.ttf */; };
+		73DD38A92A30D9EC0010FC2E /* Poppins-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 73DD38A52A30D9EC0010FC2E /* Poppins-Regular.ttf */; };
+		73DD38AA2A30D9ED0010FC2E /* Poppins-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 73DD38A62A30D9EC0010FC2E /* Poppins-Bold.ttf */; };
+		73DD38AB2A30D9ED0010FC2E /* Poppins-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 73DD38A72A30D9EC0010FC2E /* Poppins-Medium.ttf */; };
+		73DD38AC2A30D9ED0010FC2E /* Poppins-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 73DD38A82A30D9EC0010FC2E /* Poppins-SemiBold.ttf */; };
+		73DD38AE2A30DA460010FC2E /* Inter-VariableFont_slnt,wght.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 73DD38AD2A30DA460010FC2E /* Inter-VariableFont_slnt,wght.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,7 +25,11 @@
 		73DD38972A30D51B0010FC2E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		73DD389A2A30D51B0010FC2E /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		73DD38A12A30D53C0010FC2E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		73DD38A32A30D5890010FC2E /* NotoSansThai-VariableFont_wdth,wght.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansThai-VariableFont_wdth,wght.ttf"; sourceTree = "<group>"; };
+		73DD38A52A30D9EC0010FC2E /* Poppins-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Regular.ttf"; sourceTree = "<group>"; };
+		73DD38A62A30D9EC0010FC2E /* Poppins-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Bold.ttf"; sourceTree = "<group>"; };
+		73DD38A72A30D9EC0010FC2E /* Poppins-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Medium.ttf"; sourceTree = "<group>"; };
+		73DD38A82A30D9EC0010FC2E /* Poppins-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-SemiBold.ttf"; sourceTree = "<group>"; };
+		73DD38AD2A30DA460010FC2E /* Inter-VariableFont_slnt,wght.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-VariableFont_slnt,wght.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,7 +83,11 @@
 		73DD38A22A30D55E0010FC2E /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
-				73DD38A32A30D5890010FC2E /* NotoSansThai-VariableFont_wdth,wght.ttf */,
+				73DD38AD2A30DA460010FC2E /* Inter-VariableFont_slnt,wght.ttf */,
+				73DD38A62A30D9EC0010FC2E /* Poppins-Bold.ttf */,
+				73DD38A72A30D9EC0010FC2E /* Poppins-Medium.ttf */,
+				73DD38A52A30D9EC0010FC2E /* Poppins-Regular.ttf */,
+				73DD38A82A30D9EC0010FC2E /* Poppins-SemiBold.ttf */,
 			);
 			path = Fonts;
 			sourceTree = "<group>";
@@ -138,9 +150,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				73DD38A92A30D9EC0010FC2E /* Poppins-Regular.ttf in Resources */,
+				73DD38AE2A30DA460010FC2E /* Inter-VariableFont_slnt,wght.ttf in Resources */,
 				73DD389B2A30D51B0010FC2E /* Preview Assets.xcassets in Resources */,
-				73DD38A42A30D5890010FC2E /* NotoSansThai-VariableFont_wdth,wght.ttf in Resources */,
 				73DD38982A30D51B0010FC2E /* Assets.xcassets in Resources */,
+				73DD38AC2A30D9ED0010FC2E /* Poppins-SemiBold.ttf in Resources */,
+				73DD38AA2A30D9ED0010FC2E /* Poppins-Bold.ttf in Resources */,
+				73DD38AB2A30D9ED0010FC2E /* Poppins-Medium.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

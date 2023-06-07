@@ -11,6 +11,7 @@ import SwiftUI
 struct PlanaryApp: App {
     
     init(){
+        print("hi")
         printFonts()
     }
     
