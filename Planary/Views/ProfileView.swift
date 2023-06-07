@@ -9,12 +9,7 @@ import SwiftUI
 
 struct ProfileView: View {
     var body: some View {
-        ZStack{
-            Color.gray
-            Text("Profile")
-                .foregroundColor(Color.white)
-                .font(.system(size: 100))
-        }
+       Text("hi")
     }
 }
 

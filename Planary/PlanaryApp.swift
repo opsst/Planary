@@ -28,7 +28,7 @@ struct PlanaryApp: App {
     
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            BottomNavbarView()
         }
     }
 }
