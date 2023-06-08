@@ -22,28 +22,31 @@ struct BottomNavbarView: View {
     var body: some View {
         ZStack {
                     
-                    TabView {
-                        HomeView()
-                            .tabItem {
-                                Label("Today", systemImage: "house")
-                            }
-                            
-                        
-                        ExploreView()
-                            .tabItem {
-                                Label("Explore", systemImage: "binoculars.fill")
-                            }
-                        JournalView()
-                            .tabItem {
-                                Label("Journal", systemImage: "book.closed.fill")
-                            }
-                        ProfileView()
-                            .tabItem {
-                                Label("Profile", systemImage: "person.crop.circle.fill")
-                            }
-                    }
-                    .accentColor(Color(cgColor: CGColor(red: 0.722, green: 0.235, blue: 0.08, alpha: 1))) // Set the color for selected tab item
+            VStack {
+                TabView {
+                            HomeView()
+                                .tabItem {
+                                    Label("Today", systemImage: "house")
+                                }
+                            ExploreView()
+                                .tabItem {
+                                    Label("Explore", systemImage: "binoculars.fill")
+                                }
+                            JournalView()
+                                .tabItem {
+                                    Label("Journal", systemImage: "book.closed.fill")
+                                }
+                            ProfileView()
+                                .tabItem {
+                                    Label("Profile", systemImage: "person.crop.circle.fill")
+                                }
+                        }
+                
+                .accentColor(Color(cgColor: CGColor(red: 0.722, green: 0.235, blue: 0.08, alpha: 1)))
+            } // Set the color for selected tab item
                 }
+            .navigationBarBackButtonHidden()
+            .navigationBarTitleDisplayMode(.inline)
         
        
 
