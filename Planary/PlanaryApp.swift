@@ -10,11 +10,14 @@ import SwiftUI
 
 @main
 struct PlanaryApp: App {
-    @UIApplicationDelegateAdaptor(AppDelegate.self) var Appdelegate
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var Delegate
     @AppStorage("signIn") var isSignIn = false
+    @AppStorage("haveInfo") var isInfo = false
+
     init(){
 //        print("hi")
 //        printFonts()
+
     }
     
 //    func printFonts() {
@@ -32,8 +35,10 @@ struct PlanaryApp: App {
         WindowGroup {
             if !isSignIn{
                 ContentView()
-            }else {
-                ContentView()
+            }else if !isInfo{
+                SignupView()
+            }else{
+                BottomNavbarView()
             }
 
         }

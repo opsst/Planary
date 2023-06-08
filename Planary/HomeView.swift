@@ -10,12 +10,10 @@ import SwiftUI
 struct HomeView: View {
     var body: some View {
         ZStack{
+            Color(cgColor: CGColor(red: 0.094, green: 0.095, blue: 0.095, alpha: 1))
             Text("Planary").font(.custom("Poppins-SemiBold", size: 24))
-            Color.red
-            Text("Home")
-                .foregroundColor(Color.white)
-                .font(.system(size: 100))
         }
+        .edgesIgnoringSafeArea(.top)
     }
 }
 

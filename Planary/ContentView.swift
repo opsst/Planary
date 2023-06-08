@@ -6,10 +6,13 @@
 //
 
 import SwiftUI
+import GoogleSignIn
+import FirebaseAuth
+import Firebase
 
 struct ContentView: View {
 
-    
+//    @State private var showSignupView = false
     var body: some View {
         ZStack{
             Color(CGColor(red: 0.96, green: 0.0, blue: 0.0, alpha: 1.0))
@@ -25,7 +28,7 @@ struct ContentView: View {
             VStack{
                 Button(action: {
                     print("sds")
-                    // Action to perform when the button is tapped
+                   
                 }) {
                     ZStack {
                         RoundedRectangle(cornerRadius: 100.0)
@@ -54,8 +57,37 @@ struct ContentView: View {
                 
                 }
                 Button(action: {
-                    print("sds")
-                    // Action to perform when the button is tapped
+                    guard let clientID = FirebaseApp.app()?.options.clientID else { return }
+
+                    // Create Google Sign In configuration object.
+                    let config = GIDConfiguration(clientID: clientID)
+                    GIDSignIn.sharedInstance.configuration = config
+
+                    // Start the sign in flow!
+                    GIDSignIn.sharedInstance.signIn(withPresenting: getRootViewController()) {  result, error in
+                      guard error == nil else {
+                        // ...
+                          return
+                      }
+
+                      guard let user = result?.user,
+                        let idToken = user.idToken?.tokenString
+                      else {
+                          return
+                      }
+
+                      let credential = GoogleAuthProvider.credential(withIDToken: idToken,
+                                                                     accessToken: user.accessToken.tokenString)
+
+                        Auth.auth().signIn(with: credential){result, error in
+                            guard error == nil else {
+                                return
+                            }
+        
+                            print("Sign IN")
+                            UserDefaults.standard.set(true, forKey: "signIn")
+                        }
+                    }
                 }) {
                     ZStack {
                         RoundedRectangle(cornerRadius: 100.0)

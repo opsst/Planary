@@ -10,6 +10,7 @@ import SwiftUI
 
 struct SignupView: View {
     @State var name: String = ""
+//    @Binding var isPresented: Bool
 
     var body: some View {
         NavigationView {
