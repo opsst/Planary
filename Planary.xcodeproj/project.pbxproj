@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		73067CED2A32588100984D2E /* UserSignupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73067CEC2A32588100984D2E /* UserSignupView.swift */; };
 		736DC0282A314CE50049CD33 /* +View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736DC0272A314CE50049CD33 /* +View.swift */; };
 		737440ED2A30F04D006CC9F7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 737440EC2A30F04D006CC9F7 /* GoogleService-Info.plist */; };
 		737440F02A30F205006CC9F7 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 737440EF2A30F205006CC9F7 /* FirebaseAuth */; };
@@ -33,6 +34,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		73067CEC2A32588100984D2E /* UserSignupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSignupView.swift; sourceTree = "<group>"; };
 		736DC0272A314CE50049CD33 /* +View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+View.swift"; sourceTree = "<group>"; };
 		737440EC2A30F04D006CC9F7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		737440F22A30F3EB006CC9F7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -115,6 +117,7 @@
 				73DD38952A30D51A0010FC2E /* ContentView.swift */,
 				73DD38972A30D51B0010FC2E /* Assets.xcassets */,
 				73DD38992A30D51B0010FC2E /* Preview Content */,
+				73067CEC2A32588100984D2E /* UserSignupView.swift */,
 			);
 			path = Planary;
 			sourceTree = "<group>";
@@ -227,6 +230,7 @@
 				7395A51B2A31454300BA579C /* ExploreView.swift in Sources */,
 				7395A51E2A31454300BA579C /* NextView.swift in Sources */,
 				737440F32A30F3EB006CC9F7 /* AppDelegate.swift in Sources */,
+				73067CED2A32588100984D2E /* UserSignupView.swift in Sources */,
 				7395A50F2A31442B00BA579C /* LocalStorage.swift in Sources */,
 				7395A5112A31444600BA579C /* BottomNavbarView.swift in Sources */,
 				73DD38962A30D51A0010FC2E /* ContentView.swift in Sources */,
