@@ -36,7 +36,7 @@ struct PlanaryApp: App {
             if !isSignIn{
                 ContentView()
             }else if !isInfo{
-                SignupView()
+                UserSignupView()
             }else{
                 BottomNavbarView()
             }
