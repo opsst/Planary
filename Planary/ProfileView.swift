@@ -62,10 +62,7 @@ struct ProfileView: View {
                             .padding(.top, 50.0)
                             .padding(20)
                             
-                            .fullScreenCover(isPresented: $shouldShowImagePicker, onDismiss: nil) {
-                                ImagePicker(image: $image)
-                                    .ignoresSafeArea()
-                            }
+                            
                         
                             
                         HStack{
