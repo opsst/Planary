@@ -3,7 +3,7 @@
 //  Planary
 //
 //  Created by Pisit Jaiton on 7/6/2566 BE.
-//
+//`
 
 import SwiftUI
 import Firebase
@@ -33,14 +33,22 @@ struct PlanaryApp: App {
     
     var body: some Scene {
         WindowGroup {
-            if !isSignIn{
+            if !isSignIn {
                 ContentView()
-            }else if !isInfo{
-                SignupView()
-            }else{
+                    .preferredColorScheme(.light)
+                    .transition(.slide) // Apply a slide animation when transitioning
+                    .animation(.easeInOut(duration: 0.3)) // Set the animation duration and easing
+            } else if !isInfo {
+                UserSignupView()
+                    .preferredColorScheme(.light)
+                    .transition(.slide)
+                    .animation(.easeInOut(duration: 0.3))
+            } else {
                 BottomNavbarView()
+                    .preferredColorScheme(.light) 
+                    .transition(.slide)
+                    .animation(.easeInOut(duration: 0.3))
             }
-
         }
     }
 }
