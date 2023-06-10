@@ -19,12 +19,12 @@ struct ContentView: View {
             VStack{
                 Text("Planary").font(.custom("Poppins-SemiBold", size: 38))
                     .foregroundColor(Color.white)
-                Text("Your new Diet journey.").font(.custom("Poppins-SemiBold", size: 14))
+                Text("Your new Diet journey.").font(.custom("Poppins-Medium", size: 14))
                     .foregroundColor(Color.white)
                     .padding(.top, -30.0)
                 
             }
-            .padding(.bottom, 260)
+            .offset(x:0,y:-100)
             VStack{
                 Button(action: {
                     print("sds")
@@ -131,7 +131,7 @@ struct ContentView: View {
                 
                 
             }
-            .padding(.top, 500)
+            .offset(x:0,y:300)
             
         }.ignoresSafeArea()
         
