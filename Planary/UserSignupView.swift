@@ -33,7 +33,7 @@ struct UserSignupView: View {
 //    @State private var selection = 0
     
     @AppStorage("name") var name = ""
-    
+    @AppStorage("oldname") var oldname = ""
     @AppStorage("day") var day = ""
     @AppStorage("month") var month = ""
     @AppStorage("year") var year = ""
@@ -778,7 +778,7 @@ struct UserSignupView: View {
 //
                     
                     print(name)
-                    
+                    oldname=name
                     print(day)
                     print(month)
                     print(year)
