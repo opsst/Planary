@@ -8,6 +8,8 @@
 import SwiftUI
 import Firebase
 import FirebaseStorage
+import GoogleSignIn
+import FirebaseAuth
 
 struct ProfileView: View {
     @State var shouldShowImagePicker = false
@@ -195,7 +197,16 @@ struct ProfileView: View {
 //                                message: Text("Confirmation ?"),
                                 primaryButton: .destructive(Text("Yes, Logout")) {
                                     // Perform action if user confirms
-                                    UserDefaults.standard.set(false, forKey: "signIn")
+                                    
+                                    do {
+                                        try Auth.auth().signOut()
+                                        UserDefaults.standard.set(false, forKey: "signIn")
+                                        UserDefaults.standard.set(false, forKey: "haveInfo")
+                                        // User successfully signed out
+                                    } catch let signOutError as NSError {
+                                        // An error occurred while signing out
+                                        print("Error signing out: \(signOutError.localizedDescription)")
+                                    }
 
 
                                 },
