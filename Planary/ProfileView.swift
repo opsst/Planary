@@ -18,12 +18,12 @@ struct ProfileView: View {
     @AppStorage("imageData") var imageData: String = ""
     @AppStorage("name") var name = ""
     @State private var showLogoutAlert = false
-
+    let radius: CGFloat = CGFloat(10)
     var body: some View {
         NavigationView {
             ZStack {
                 Color(cgColor: CGColor(red: 0.094, green: 0.095, blue: 0.095, alpha: 1))
-                VStack {
+                VStack(spacing: 0) {
                     ZStack {
                         RoundedRectangle(cornerRadius: 30)
                             .foregroundColor(Color(CGColor(red: 0.167, green: 0.167, blue: 0.167, alpha: 1)))
@@ -99,9 +99,12 @@ struct ProfileView: View {
                     
                     
                     NavigationLink(destination: SettingView() ){
-                        RoundedRectangle(cornerRadius: 10)
+                        Rectangle()
                             .fill(Color(CGColor(red: 0.167, green: 0.167, blue: 0.167, alpha: 1)))
                             .frame(width: .infinity, height: 50)
+                            .padding(.bottom, radius)
+                            .cornerRadius(radius)
+                            .padding(.bottom, -radius)
                             .overlay(
                                 ZStack {
                                     Image(systemName: "gearshape")
@@ -122,7 +125,7 @@ struct ProfileView: View {
                         
                     }
                     NavigationLink(destination: HistoryView() ){
-                        RoundedRectangle(cornerRadius: 10)
+                        RoundedRectangle(cornerRadius: 0)
                             .fill(Color(CGColor(red: 0.167, green: 0.167, blue: 0.167, alpha: 1)))
                             .frame(width: .infinity, height: 50)
                             .overlay(
@@ -145,7 +148,7 @@ struct ProfileView: View {
                         
                     }
                     NavigationLink(destination: InformationView() ){
-                        RoundedRectangle(cornerRadius: 10)
+                        RoundedRectangle(cornerRadius: 0)
                             .fill(Color(CGColor(red: 0.167, green: 0.167, blue: 0.167, alpha: 1)))
                             .frame(width: .infinity, height: 50)
                             .overlay(
@@ -168,9 +171,12 @@ struct ProfileView: View {
                         
                     }
                     
-                        RoundedRectangle(cornerRadius: 10)
+                        Rectangle()
                             .fill(Color(CGColor(red: 0.167, green: 0.167, blue: 0.167, alpha: 1)))
                             .frame(width: .infinity, height: 50)
+                            .padding(.top, radius)
+                            .cornerRadius(radius)
+                            .padding(.top, -radius)
                             .overlay(
                                 ZStack {
                                     Image(systemName: "rectangle.portrait.and.arrow.right")

@@ -26,7 +26,6 @@
 		7395A51B2A31454300BA579C /* ExploreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7395A5152A31454300BA579C /* ExploreView.swift */; };
 		7395A51C2A31454300BA579C /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7395A5182A31454300BA579C /* HomeView.swift */; };
 		7395A51D2A31454300BA579C /* JournalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7395A5192A31454300BA579C /* JournalView.swift */; };
-		7395A5202A31457B00BA579C /* SignupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7395A51F2A31457B00BA579C /* SignupView.swift */; };
 		73DD38942A30D51A0010FC2E /* PlanaryApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73DD38932A30D51A0010FC2E /* PlanaryApp.swift */; };
 		73DD38962A30D51A0010FC2E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73DD38952A30D51A0010FC2E /* ContentView.swift */; };
 		73DD38982A30D51B0010FC2E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 73DD38972A30D51B0010FC2E /* Assets.xcassets */; };
@@ -51,7 +50,6 @@
 		7395A5162A31454300BA579C /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		7395A5182A31454300BA579C /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		7395A5192A31454300BA579C /* JournalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalView.swift; sourceTree = "<group>"; };
-		7395A51F2A31457B00BA579C /* SignupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupView.swift; sourceTree = "<group>"; };
 		73DD38902A30D51A0010FC2E /* Planary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Planary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		73DD38932A30D51A0010FC2E /* PlanaryApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanaryApp.swift; sourceTree = "<group>"; };
 		73DD38952A30D51A0010FC2E /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -121,7 +119,6 @@
 		73DD38922A30D51A0010FC2E /* Planary */ = {
 			isa = PBXGroup;
 			children = (
-				7395A51F2A31457B00BA579C /* SignupView.swift */,
 				7395A5152A31454300BA579C /* ExploreView.swift */,
 				7395A5182A31454300BA579C /* HomeView.swift */,
 				7395A5192A31454300BA579C /* JournalView.swift */,
@@ -263,7 +260,6 @@
 				7395A51D2A31454300BA579C /* JournalView.swift in Sources */,
 				736DC0282A314CE50049CD33 /* +View.swift in Sources */,
 				7395A51A2A31454300BA579C /* ProfileView.swift in Sources */,
-				7395A5202A31457B00BA579C /* SignupView.swift in Sources */,
 				73DD38942A30D51A0010FC2E /* PlanaryApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
