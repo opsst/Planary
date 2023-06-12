@@ -13,90 +13,195 @@ struct ProfileView: View {
     @State var shouldShowImagePicker = false
     @State var image: UIImage?
     @State private var isTapped = false
+    @AppStorage("imageData") var imageData: String = ""
+    @AppStorage("name") var name = ""
+    @State private var showLogoutAlert = false
+
     var body: some View {
         NavigationView {
             ZStack {
                 Color(cgColor: CGColor(red: 0.094, green: 0.095, blue: 0.095, alpha: 1))
-                    VStack {
-                            ZStack {
-                                RoundedRectangle(cornerRadius: 30)
-                                    .foregroundColor(Color(CGColor(red: 0.167, green: 0.167, blue: 0.167, alpha: 1)))
-                                    .frame(width: .infinity, height: 160)
-                                    .overlay(
-                                        Text("Account Name")
-                                            .font(.system(size: 25,weight: .bold))
-                                            .foregroundColor(.white)
-                                            .padding()
-                                    )
-                                NavigationLink(destination: EditProfileView()) {
-                                    RoundedRectangle(cornerRadius: 360)
-                                        .frame(width: 100, height: 100)
-                                        .foregroundColor(Color.gray)
-                                        .padding(.bottom, 150.0)
-                                        .overlay(
-                                            Image(systemName: "person.fill")
-                                                .resizable()
-                                                .aspectRatio(contentMode: .fit)
-                                                .frame(width: 50, height: 50)
-                                                .padding(.bottom, 150.0)
-                                                .foregroundColor(Color.white)
-                                    )
-                                }
+                VStack {
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 30)
+                            .foregroundColor(Color(CGColor(red: 0.167, green: 0.167, blue: 0.167, alpha: 1)))
+                            .frame(width: .infinity, height: 160)
+                            .overlay(
+                                Text(name)
+                                    .font(.system(size: 25,weight: .bold))
+                                    .foregroundColor(.white)
+                                    .padding()
+                            )
+                        
+                        NavigationLink(destination: EditProfileView()) {
+                            if let image = self.image {
                                 RoundedRectangle(cornerRadius: 360)
-                                    .frame(width: 25, height: 25)
-                                    .foregroundColor(Color(cgColor: CGColor(red: 0.094, green: 0.095, blue: 0.095, alpha: 1)))
-                                    .padding(.bottom, 90.0)
-                                    .padding(.leading, 70)
+                                    .frame(width: 100, height: 100)
+                                    .foregroundColor(Color.gray)
+                                    .padding(.bottom, 150.0)
                                     .overlay(
-                                        Image(systemName: "pencil")
+                                        Image(uiImage: image)
                                             .resizable()
-                                            .aspectRatio(contentMode: .fit)
-                                            .frame(width: 10)
-                                            .padding(.bottom, 90.0)
-                                            .padding(.leading, 70)
+                                            .frame(width: 100, height: 100)
+                                            .cornerRadius(360)
+                                            .scaledToFill()
                                             .foregroundColor(Color.white)
+                                            .padding(.bottom, 150.0)
+                                        
+                                        
                                         
                                     )
-                            
+                            }else{
+                                RoundedRectangle(cornerRadius: 360)
+                                    .frame(width: 100, height: 100)
+                                    .foregroundColor(Color.gray)
+                                    .padding(.bottom, 150.0)
+                                    .overlay(
+                                        Image(systemName: "person.fill")
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fit)
+                                            .frame(width: 50, height: 50)
+                                            .padding(.bottom, 150.0)
+                                            .foregroundColor(Color.white)
+                                    )
                             }
-                            .padding(.top, 50.0)
-                            .padding(20)
                             
-                            
+                        }.onAppear {
+                            // Decode the Base64-encoded image data and create a UIImage
+                            if let decodedData = Data(base64Encoded: imageData),
+                               let decodedImage = UIImage(data: decodedData) {
+                                self.image = decodedImage
+                            }
+                        }
+                        RoundedRectangle(cornerRadius: 360)
+                            .frame(width: 25, height: 25)
+                            .foregroundColor(Color(cgColor: CGColor(red: 0.094, green: 0.095, blue: 0.095, alpha: 1)))
+                            .padding(.bottom, 90.0)
+                            .padding(.leading, 70)
+                            .overlay(
+                                Image(systemName: "pencil")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 10)
+                                    .padding(.bottom, 90.0)
+                                    .padding(.leading, 70)
+                                    .foregroundColor(Color.white)
+                                
+                            )
                         
-                            
-                        HStack{
-                            Image(systemName: "gear")
-                            Text("setting")
-                            Spacer()
-                            Image(systemName: "greaterthan")
-                                .padding(.trailing,25)
-                        }.padding(.leading,20)
-                            .foregroundColor(Color.white)
-                        Spacer()
-                        HStack{
-                            Image(systemName: "gear")
-                            Text("setting")
-                            Spacer()
-                            Image(systemName: "greaterthan")
-                                .padding(.trailing,25)
-                        }.padding(.leading,20).foregroundColor(Color.white)
-                        Spacer()
-                        HStack{
-                            Image(systemName: "gear")
-                            Text("setting")
-                            Spacer()
-                            Image(systemName: "greaterthan")
-                                .padding(.trailing,25)
-                        }.padding(.leading,20).foregroundColor(Color.white)
-                        Spacer()
-                        HStack{
-                            Image(systemName: "gear")
-                            Text("setting")
-                            Spacer()
-                            Image(systemName: "greaterthan")
-                                .padding(.trailing,25)
-                        }.padding(.leading,20).foregroundColor(Color.white)
+                    }
+                    .padding(.top, 70.0)
+                    .padding(20)
+                    
+                    
+                    
+                    
+                    NavigationLink(destination: SettingView() ){
+                        RoundedRectangle(cornerRadius: 10)
+                            .fill(Color(CGColor(red: 0.167, green: 0.167, blue: 0.167, alpha: 1)))
+                            .frame(width: .infinity, height: 50)
+                            .overlay(
+                                ZStack {
+                                    Image(systemName: "gearshape")
+                                        .frame(maxWidth: .infinity,alignment: .leading)
+                                        .padding(.leading,20)
+                                    Text("Setting")
+                                        .font(.headline.weight(.bold))
+                                        .frame(maxWidth: .infinity,alignment: .leading)
+                                        .padding(.leading,50)
+                                    Image(systemName: "chevron.right")
+                                        .frame(maxWidth: .infinity,alignment: .trailing)
+                                        .padding(.trailing,20)
+                                }
+                                    .foregroundColor(Color.white)
+                            )
+                            .padding([.leading, .trailing],20)
+                        
+                        
+                    }
+                    NavigationLink(destination: HistoryView() ){
+                        RoundedRectangle(cornerRadius: 10)
+                            .fill(Color(CGColor(red: 0.167, green: 0.167, blue: 0.167, alpha: 1)))
+                            .frame(width: .infinity, height: 50)
+                            .overlay(
+                                ZStack {
+                                    Image(systemName: "books.vertical")
+                                        .frame(maxWidth: .infinity,alignment: .leading)
+                                        .padding(.leading,20)
+                                    Text("History")
+                                        .font(.headline.weight(.bold))
+                                        .frame(maxWidth: .infinity,alignment: .leading)
+                                        .padding(.leading,50)
+                                    Image(systemName: "chevron.right")
+                                        .frame(maxWidth: .infinity,alignment: .trailing)
+                                        .padding(.trailing,20)
+                                }
+                                    .foregroundColor(Color.white)
+                            )
+                            .padding([.leading, .trailing],20)
+                        
+                        
+                    }
+                    NavigationLink(destination: InformationView() ){
+                        RoundedRectangle(cornerRadius: 10)
+                            .fill(Color(CGColor(red: 0.167, green: 0.167, blue: 0.167, alpha: 1)))
+                            .frame(width: .infinity, height: 50)
+                            .overlay(
+                                ZStack {
+                                    Image(systemName: "info.circle")
+                                        .frame(maxWidth: .infinity,alignment: .leading)
+                                        .padding(.leading,20)
+                                    Text("Information")
+                                        .font(.headline.weight(.bold))
+                                        .frame(maxWidth: .infinity,alignment: .leading)
+                                        .padding(.leading,50)
+                                    Image(systemName: "chevron.right")
+                                        .frame(maxWidth: .infinity,alignment: .trailing)
+                                        .padding(.trailing,20)
+                                }
+                                    .foregroundColor(Color.white)
+                            )
+                            .padding([.leading, .trailing],20)
+                        
+                        
+                    }
+                    
+                        RoundedRectangle(cornerRadius: 10)
+                            .fill(Color(CGColor(red: 0.167, green: 0.167, blue: 0.167, alpha: 1)))
+                            .frame(width: .infinity, height: 50)
+                            .overlay(
+                                ZStack {
+                                    Image(systemName: "rectangle.portrait.and.arrow.right")
+                                        .frame(maxWidth: .infinity,alignment: .leading)
+                                        .padding(.leading,20)
+                                    Text("Logout")
+                                        .font(.headline.weight(.bold))
+                                        .frame(maxWidth: .infinity,alignment: .leading)
+                                        .padding(.leading,50)
+                                    Image(systemName: "chevron.right")
+                                        .frame(maxWidth: .infinity,alignment: .trailing)
+                                        .padding(.trailing,20)
+                                }
+                                    .foregroundColor(Color.orange)
+                            )
+                            .padding([.leading, .trailing],20)
+                            .onTapGesture {
+                            showLogoutAlert = true
+
+                              }.alert(isPresented: $showLogoutAlert) {
+                            // Create and return the Alert view
+                            Alert(
+                                title: Text("Logout from Planary?"),
+//                                message: Text("Confirmation ?"),
+                                primaryButton: .destructive(Text("Yes, Logout")) {
+                                    // Perform action if user confirms
+                                    UserDefaults.standard.set(false, forKey: "signIn")
+
+
+                                },
+                                secondaryButton: .cancel()
+                            )
+                        }
                         Spacer()
                         
                     }
@@ -111,11 +216,11 @@ struct ProfileView: View {
                         .font(.system(size: 20).weight(.bold))
                         .foregroundColor(Color.white)
                         .padding(.top,60)
-                    Image(systemName: "gearshape")
-                        .frame(maxWidth: .infinity,alignment: .trailing)
-                        .padding(.trailing,20)
-                        .foregroundColor(Color.white)
-                        .padding(.top,60)
+//                    Image(systemName: "gearshape")
+//                        .frame(maxWidth: .infinity,alignment: .trailing)
+//                        .padding(.trailing,20)
+//                        .foregroundColor(Color.white)
+//                        .padding(.top,60)
                 }
                         .frame(height: 110)
                         .frame(maxHeight: .infinity,alignment: .top)
@@ -148,6 +253,24 @@ struct ProfileView: View {
 //            }
 //        }
 //    }
+}
+
+struct SettingView : View{
+    var body: some View{
+        Text("ho")
+    }
+}
+
+struct HistoryView : View{
+    var body: some View{
+        Text("ho")
+    }
+}
+
+struct InformationView : View{
+    var body: some View{
+        Text("ho")
+    }
 }
 
 struct ProfileView_Previews: PreviewProvider {

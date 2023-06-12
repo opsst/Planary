@@ -9,6 +9,7 @@ import SwiftUI
 import Firebase
 import FirebaseStorage
 import Combine
+import SDWebImageSwiftUI
 struct EditProfileView: View {
     
     @State var shouldShowImagePicker = false
@@ -30,6 +31,10 @@ struct EditProfileView: View {
     
     @AppStorage("selection") var selection = 0
     
+    @AppStorage("uuid") var uuid = ""
+    
+    @AppStorage("imageData") var imageData: String = ""
+    
     let radius: CGFloat = CGFloat(10)
     @AppStorage("selectedFeetIndex") var selectedFeetIndex: Int = 3
     @AppStorage("selectedInchesIndex") var selectedInchesIndex: Int = 6
@@ -38,43 +43,53 @@ struct EditProfileView: View {
     
     @AppStorage("selectedPoundIndex") private var selectedPoundIndex = 60
     @AppStorage("selectedKilogramIndex") var selectedKilogramIndex = 60
+    @State var url = ""
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     var body: some View {
-        
         NavigationView {
             ZStack{
                 Color(cgColor: CGColor(red: 0.094, green: 0.095, blue: 0.095, alpha: 1))
                 VStack(spacing: 0){
                     Button {
                         shouldShowImagePicker.toggle()
+                        
                     } label: {
-                        if let image = self.image {
-                            RoundedRectangle(cornerRadius: 360)
-                                .frame(width: 100, height: 100)
-                                .foregroundColor(Color.gray)
-                                .padding(.bottom, 0)
-                                .overlay(
-                                    Image(uiImage: image)
-                                        .resizable()
-                                        .scaledToFill()
-                                        .frame(width: 100, height: 100)
-                                        .cornerRadius(64)
-                                        .padding(.bottom, 0)
-                                        .foregroundColor(Color.white)
-                                ).padding(.top,100)
-                        } else {
-                            RoundedRectangle(cornerRadius: 360)
-                                .frame(width: 100, height: 100)
-                                .foregroundColor(Color.gray)
-                                .padding(.bottom, 0)
-                                .overlay(
-                                    Image(systemName: "person.fill")
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width: 50, height: 50)
-                                        .padding(.bottom, 0)
-                                        .foregroundColor(Color.white)
-                                )
+                        
+                        
+                        
+                            if let image = self.image {
+                                RoundedRectangle(cornerRadius: 360)
+                                    .frame(width: 100, height: 100)
+                                    .foregroundColor(Color.gray)
+                                    .padding(.bottom, 0)
+                                    .overlay(
+                                        Image(uiImage: image)
+                                            .resizable()
+                                            .scaledToFill()
+                                            .frame(width: 100, height: 100)
+                                            .cornerRadius(64)
+                                            .padding(.bottom, 0)
+                                            .foregroundColor(Color.white)
+                                    ).padding(.top,100)
+                            } else {
+                                RoundedRectangle(cornerRadius: 360)
+                                    .frame(width: 100, height: 100)
+                                    .foregroundColor(Color.gray)
+                                    .padding(.bottom, 0)
+                                    .overlay(
+                                        Image(systemName: "person.fill")
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fit)
+                                            .frame(width: 50, height: 50)
+                                            .padding(.bottom, 0)
+                                            .foregroundColor(Color.white)
+                                    )
+                            }
+                    }.onAppear {
+                        // Decode the Base64-encoded image data and create a UIImage
+                        if let decodedData = Data(base64Encoded: imageData),
+                           let decodedImage = UIImage(data: decodedData) {
+                            self.image = decodedImage
                         }
                     }
                     Button {
@@ -332,6 +347,13 @@ struct EditProfileView: View {
                         .padding(.top,60)
                         .onTapGesture {
                             persistImageToStorage()
+                            if let imageData = image?.jpegData(compressionQuality: 1.0) {
+                                // Encode the image data as a Base64 string
+                                let base64Image = imageData.base64EncodedString()
+                                
+                                // Store the image data in AppStorage
+                                self.imageData = base64Image
+                            }
                             showAlert.toggle()
                             
                         } .alert(isPresented: $showAlert) {

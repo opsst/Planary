@@ -53,7 +53,7 @@ struct UserSignupView: View {
     
     @AppStorage("selectedPoundIndex") private var selectedPoundIndex = 60
     @AppStorage("selectedKilogramIndex") var selectedKilogramIndex = 60
-    
+    @AppStorage("haveInfo") var isInfo = false
     var frank = 0
     var body: some View {
         
