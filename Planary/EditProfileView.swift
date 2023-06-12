@@ -33,9 +33,8 @@ struct EditProfileView: View {
     let radius: CGFloat = CGFloat(10)
     @AppStorage("selectedFeetIndex") var selectedFeetIndex: Int = 3
     @AppStorage("selectedInchesIndex") var selectedInchesIndex: Int = 6
- 
-    
     @AppStorage("selectedCentimeterIndex") var selectedCentimeterIndex = 60
+    
     
     @AppStorage("selectedPoundIndex") private var selectedPoundIndex = 60
     @AppStorage("selectedKilogramIndex") var selectedKilogramIndex = 60
@@ -208,10 +207,17 @@ struct EditProfileView: View {
                                                        .font(.headline.weight(.bold))
                                                        .frame(maxWidth: .infinity,alignment: .leading)
                                                        .padding(.leading,20)
-                                                   Text(String(gender==0 ? "Female" : "Male"))
-                                                       .font(.body)
-                                                       .frame(maxWidth: .infinity,alignment: .trailing)
-                                                       .padding(.trailing,50)
+                                                   if selection == 0 {
+                                                       Text(String(selectedPoundIndex+65)+" lb")
+                                                           .font(.body)
+                                                           .frame(maxWidth: .infinity,alignment: .trailing)
+                                                           .padding(.trailing,50)
+                                                   }else{
+                                                       Text(String(selectedKilogramIndex+30)+" kg")
+                                                           .font(.body)
+                                                           .frame(maxWidth: .infinity,alignment: .trailing)
+                                                           .padding(.trailing,50)
+                                                   }
                                                    Image(systemName: "chevron.right")
                                                        .frame(maxWidth: .infinity,alignment: .trailing)
                                                        .padding(.trailing,20)
@@ -234,10 +240,26 @@ struct EditProfileView: View {
                                                        .font(.headline.weight(.bold))
                                                        .frame(maxWidth: .infinity,alignment: .leading)
                                                        .padding(.leading,20)
-                                                   Text(String(gender==0 ? "Female" : "Male"))
-                                                       .font(.body)
-                                                       .frame(maxWidth: .infinity,alignment: .trailing)
-                                                       .padding(.trailing,50)
+                                                   if selection == 0 {
+                                                       if selectedInchesIndex == 0 {
+                                                           Text(String(selectedFeetIndex+3)+" ft")
+                                                               .font(.body)
+                                                               .frame(maxWidth: .infinity,alignment: .trailing)
+                                                               .padding(.trailing,50)
+                                                       }else{
+                                                           Text(String(selectedFeetIndex+3)+" ft "+String(selectedInchesIndex)+" in")
+                                                               .font(.body)
+                                                               .frame(maxWidth: .infinity,alignment: .trailing)
+                                                               .padding(.trailing,50)
+                                                       }
+                                                      
+                                                   }else{
+                                                       Text(String(selectedCentimeterIndex+100)+" cm")
+                                                           .font(.body)
+                                                           .frame(maxWidth: .infinity,alignment: .trailing)
+                                                           .padding(.trailing,50)
+                                                   }
+                                                   
                                                    Image(systemName: "chevron.right")
                                                        .frame(maxWidth: .infinity,alignment: .trailing)
                                                        .padding(.trailing,20)
@@ -262,7 +284,7 @@ struct EditProfileView: View {
                                                        .font(.headline.weight(.bold))
                                                        .frame(maxWidth: .infinity,alignment: .leading)
                                                        .padding(.leading,20)
-                                                   Text(String(gender==0 ? "Female" : "Male"))
+                                                   Text(String(diet==1 ? "Balance" : diet == 2 ? "Keto & Low Carb" : diet == 3 ? "High Protein" : "Not Select"))
                                                        .font(.body)
                                                        .frame(maxWidth: .infinity,alignment: .trailing)
                                                        .padding(.trailing,50)
@@ -446,10 +468,138 @@ struct EditNameView: View {
 }
 
 struct BirthDateView: View {
-
+    @AppStorage("day") var day = ""
+    @AppStorage("month") var month = ""
+    @AppStorage("year") var year = ""
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     var body: some View {
-        VStack {
+        ZStack{
+            Color(UIColor(red: 0.096, green: 0.095, blue: 0.095, alpha: 1.0))
+            VStack(alignment: .leading){
+                Image(systemName: "chevron.left")
+                    .font(.system(size: 24,weight: .bold))
+                    .foregroundColor(.white)
+                    .padding([.bottom,.top],20)
+                    .onTapGesture {
+                        presentationMode.wrappedValue.dismiss()
+                    }
+                Text("When is your")
+                    .font(.custom("Poppins-SemiBold", size: 32))
+                    .foregroundColor(Color.white)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                
+                Text("Birthday?")
+                    .font(.custom("Poppins-SemiBold", size: 32))
+                    .foregroundColor(Color(hex: 0xFFEB3800))
+                    .padding(.bottom, 1.0)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                Text("We use this to calculate your personalized recommendations.")
+                    .font(.custom("Poppins-SemiBold", size: 15))
+                    .foregroundColor(Color.white)
+                    .padding(.bottom, 50.0)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                
+                HStack {
+                    TextField("DD",text: $day)
+                        .preferredColorScheme(.light)
+                        .keyboardType(.numberPad)
+                        .onReceive(Just(day)) { newValue in
+                              let filtered = newValue.filter { "0123456789".contains($0) }
+                            if filtered != newValue {
+                                  day = filtered
+                              }
+                              if let number = Int(filtered), !(1...31).contains(number) {
+                                  day = ""
+                              }
+                
+                            
+                            
+                          }
+
+                        .padding(15)
+                        .font(.custom("Poppins-SemiBold", size: 15))
+                        .foregroundColor(Color.black)
+                        .accentColor(Color(hex: 0xFFEB3800))
+                        .background(RoundedRectangle(cornerRadius: 20))
+                    .foregroundColor(Color(hex: 0xFFD9D9D9))
+                    .padding(.horizontal)
+
+
+                    TextField("MM",text: $month)
+                        .preferredColorScheme(.light)
+                        .keyboardType(.numberPad)
+    
+                        .onReceive(Just(month)) { newValue in
+                              let filtered = newValue.filter { "0123456789".contains($0) }
+                              if filtered != newValue {
+                                  month = filtered
+                              }
+                            if let number = Int(filtered), !(1...12).contains(number) {
+                                  month = ""
+                              }
+                    
+                          }
+                        .padding(15)
+                        .font(.custom("Poppins-SemiBold", size: 15))
+                        .foregroundColor(Color.black)
+                        .accentColor(Color(hex: 0xFFEB3800))
+                        .background(RoundedRectangle(cornerRadius: 20))
+                    .foregroundColor(Color(hex: 0xFFD9D9D9))
+                    .padding(.horizontal)
+
+                    TextField("YYYY",text: $year)
+                        .preferredColorScheme(.light)
+                        .keyboardType(.numberPad)
+    
+                        .onReceive(Just(year)) { newValue in
+                              let filtered = newValue.filter { "0123456789".contains($0) }
+                              if filtered != newValue {
+                                  year = filtered
+                              }
+                            if let number = Int(filtered), !(0...2023).contains(number) {
+                                  year = ""
+                              }
+                          }
+                        .padding(15)
+                        .font(.custom("Poppins-SemiBold", size: 15))
+                        .foregroundColor(Color.black)
+                        .accentColor(Color(hex: 0xFFEB3800))
+                        .background(RoundedRectangle(cornerRadius: 20))
+                    .foregroundColor(Color(hex: 0xFFD9D9D9))
+                    .padding(.horizontal)
+                  
+                    
+                }
+                Button{
+                    print("saved")
+                    presentationMode.wrappedValue.dismiss()
+                }label:
+                {
+                    Text("Save Change")
+                        .font(.custom("Inter-Regular_Bold", size: 16))
+                        .foregroundColor(Color.white)
+                        .frame(maxWidth: .infinity, maxHeight: 60)
+                        .background(Color(hex: 0xFFEB3800))
+                        .clipShape(RoundedRectangle(cornerRadius: 100))
+                }.offset(y: 200)
+                Spacer()
+                
+                
+            }
+            .padding(.horizontal, 30.0)
+            .padding(/*@START_MENU_TOKEN@*/.top, 50.0/*@END_MENU_TOKEN@*/)
+            
+            
+            
         }
+        .onTapGesture {
+            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+        }
+            .ignoresSafeArea()
+            .tag(3)
+            .contentShape(Rectangle())
+            .gesture(DragGesture())
+            .navigationBarBackButtonHidden(true)
     }
 }
 
@@ -677,13 +827,94 @@ struct GoalView: View {
 }
 struct WeightView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    @AppStorage("selection") var selection = 0
+    @AppStorage("selectedPoundIndex") private var selectedPoundIndex = 60
+    @AppStorage("selectedKilogramIndex") var selectedKilogramIndex = 60
     var body: some View {
-        Text("Hello, SwiftUI!")
-            .font(.title)
-            .foregroundColor(.blue)
-            .padding()
-        
-//            presentationMode.wrappedValue.dismiss()
+        ZStack{
+            Color(UIColor(red: 0.096, green: 0.095, blue: 0.095, alpha: 1.0))
+            VStack(alignment: .leading){
+                Image(systemName: "chevron.left")
+                    .font(.system(size: 24,weight: .bold))
+                    .foregroundColor(.white)
+                    .padding([.bottom,.top],20)
+                    .onTapGesture {
+                        presentationMode.wrappedValue.dismiss()
+                    }
+                Text("When is your")
+                    .font(.custom("Poppins-SemiBold", size: 32))
+                    .foregroundColor(Color.white)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                
+                Text("weight?")
+                    .font(.custom("Poppins-SemiBold", size: 32))
+                    .foregroundColor(Color(hex: 0xFFEB3800))
+                    .padding(.bottom, 1.0)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                Text("We use this to calculate your personalized recommendations.")
+                    .font(.custom("Poppins-SemiBold", size: 15))
+                    .foregroundColor(Color.white)
+                    .padding(.bottom, 50.0)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                ZStack {
+                    Color(hex: 0xFF303030)
+                        .frame(maxWidth: .infinity, maxHeight: 40)
+                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                    HStack(spacing: 0){
+                        Button(action: {
+                            selection = 0
+                        }) {
+                            Text("Pounds")
+                                .font(.custom("Inter-Regular_Bold", size: 15))
+                                .foregroundColor(Color.white)
+                                .frame(maxWidth: .infinity, maxHeight: 40)
+                                .background(Color(hex: selection == 0 ? 0xFF6C6C6C : 0xFF303030))
+                                .clipShape(RoundedRectangle(cornerRadius: 10))
+                        }
+                        Button(action: {
+                            selection = 1
+                        }) {
+                            Text("Kilograms")
+                                .font(.custom("Inter-Regular_Bold", size: 15))
+                                .foregroundColor(Color.white)
+                                .frame(maxWidth: .infinity, maxHeight: 40)
+                                .background(Color(hex: selection == 1 ? 0xFF6C6C6C : 0xFF303030))
+                                .clipShape(RoundedRectangle(cornerRadius: 10))
+                        }
+                    }
+                
+                }
+                VStack(alignment: .center){
+                    if selection == 0 {
+                                PoundView()
+                            } else {
+                                KilogramView()
+                            }
+                }
+                .frame(maxWidth: .infinity)
+                
+//                            TabView(selection: $selection) {
+//                                        CentimeterView()
+//                                      FeetInchesView()
+//
+//
+//
+//
+//                                  }
+                Spacer()
+
+            }
+            .padding(.horizontal, 30.0)
+            .padding(/*@START_MENU_TOKEN@*/.top, 50.0/*@END_MENU_TOKEN@*/)
+            
+            
+            
+        }
+            .ignoresSafeArea()
+            .tag(5)
+            .contentShape(Rectangle())
+            .gesture(DragGesture())
+            .navigationBarBackButtonHidden(true)
     }
 }
 struct HeightView: View {
@@ -808,11 +1039,147 @@ struct HeightView: View {
 }
 struct DietView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    @AppStorage("diet") var diet = 0
     var body: some View {
-        Text("Hello, SwiftUI!")
-            .font(.title)
-            .foregroundColor(.blue)
-            .padding()
+        ZStack{
+            Color(UIColor(red: 0.096, green: 0.095, blue: 0.095, alpha: 1.0))
+            VStack(alignment: .leading){
+                Image(systemName: "chevron.left")
+                    .font(.system(size: 24,weight: .bold))
+                    .foregroundColor(.white)
+                    .padding([.bottom,.top],20)
+                    .onTapGesture {
+                        presentationMode.wrappedValue.dismiss()
+                    }
+                Text("Which diet plans")
+                    .font(.custom("Poppins-SemiBold", size: 32))
+                    .foregroundColor(Color.white)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                
+                
+                
+                Text("do you prefer?")
+                    .font(.custom("Poppins-SemiBold", size: 32))
+                    .foregroundColor(Color(hex: 0xFFEB3800))
+                    .padding(.bottom, 20.0)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                Button(action: {
+                    if(diet != 1){
+                        diet = 1
+                        presentationMode.wrappedValue.dismiss()
+                    }else{
+                        diet = 0
+                        presentationMode.wrappedValue.dismiss()
+                    }
+                }) {
+                    HStack{
+                        VStack (alignment: .leading, spacing: 0) {
+                            Text("Balance")
+                                .font(.custom("Poppins-Bold", size: 32))
+                            Text("Diet")
+                                .font(.custom("Poppins-Bold", size: 32))
+                            
+                        }
+                        Spacer()
+                        Text("Start with something casual, If you are new we recommend this plan.")
+                            .frame(maxWidth: 150)
+                            .font(.custom("Inter-Regular_Medium", size: 14))
+                            .multilineTextAlignment(.leading)
+                        
+                    }
+                    .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
+                    .foregroundColor(diet == 1 ? Color.white : Color.black)
+                    .frame(maxWidth: .infinity, maxHeight: 130)
+                    .background( diet == 1 ? Color(hex:  0xFFEB3800) :Color.white )
+                    .clipShape(RoundedRectangle(cornerRadius: 20))
+                    
+                    
+                }
+                .padding(.bottom)
+                
+                Button(action: {
+                    if(diet != 2){
+                        diet = 2
+                        presentationMode.wrappedValue.dismiss()
+                    }else{
+                        diet = 0
+                        presentationMode.wrappedValue.dismiss()
+                    }
+                }) {
+                    HStack{
+                        VStack (alignment: .leading, spacing: 0) {
+                            Text("Keto &")
+                                .font(.custom("Poppins-Bold", size: 32))
+                            Text("Low Carb")
+                                .font(.custom("Poppins-Bold", size: 32))
+                            
+                        }
+                        
+                        
+                        Spacer()
+                        
+                        Text("Drop the carbs, make it more advance by taking more healthy fats.")
+                            .frame(maxWidth: 150)
+                            .font(.custom("Inter-Regular_Medium", size: 14))
+                            .multilineTextAlignment(.leading)
+                    }
+                    .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
+                    .foregroundColor(diet == 2 ? Color.white : Color.black)
+                    .frame(maxWidth: .infinity, maxHeight: 130)
+                    .background( diet == 2 ? Color(hex:  0xFFEB3800) :Color.white )
+                    .clipShape(RoundedRectangle(cornerRadius: 20))
+                    
+                }
+                .padding(.bottom)
+                
+                Button(action: {
+                    if(diet != 3){
+                        diet = 3
+                        presentationMode.wrappedValue.dismiss()
+                    }else{
+                        presentationMode.wrappedValue.dismiss()
+                    }
+                }) {
+                    HStack{
+                        VStack (alignment: .leading, spacing: 0) {
+                            Text("High")
+                                .font(.custom("Poppins-Bold", size: 32))
+                            Text("Protein")
+                                .font(.custom("Poppins-Bold", size: 32))
+                            
+                        }
+                        
+                        
+                        Spacer()
+                        
+                        Text("Just eat more protein And stay full with loads of protein.")
+                            .frame(maxWidth: 150)
+                            .font(.custom("Inter-Regular_Medium", size: 14))
+                            .multilineTextAlignment(.leading)
+                    }
+                    .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
+                    .foregroundColor(diet == 3 ? Color.white : Color.black)
+                    .frame(maxWidth: .infinity, maxHeight: 130)
+                    .background( diet == 3 ? Color(hex:  0xFFEB3800) :Color.white )
+                    .clipShape(RoundedRectangle(cornerRadius: 20))
+                    
+                }
+                .padding(.bottom)
+                Spacer()
+                
+                
+            }
+            .padding(.horizontal, 30.0)
+            .padding(/*@START_MENU_TOKEN@*/.top, 50.0/*@END_MENU_TOKEN@*/)
+            
+            
+            
+        }
+        .ignoresSafeArea()
+        .tag(6)
+        .contentShape(Rectangle())
+        .gesture(DragGesture())
+        .navigationBarBackButtonHidden(true)
     }
 }
 
