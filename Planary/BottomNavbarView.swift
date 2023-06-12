@@ -32,10 +32,10 @@ struct BottomNavbarView: View {
                                 .tabItem {
                                     Label("Explore", systemImage: "binoculars.fill")
                                 }
-                            JournalView()
-                                .tabItem {
-                                    Label("Journal", systemImage: "book.closed.fill")
-                                }
+//                            JournalView()
+//                                .tabItem {
+//                                    Label("Journal", systemImage: "book.closed.fill")
+//                                }
                             ProfileView()
                                 .tabItem {
                                     Label("Profile", systemImage: "person.crop.circle.fill")
