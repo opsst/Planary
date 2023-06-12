@@ -11,7 +11,7 @@ import FirebaseAuth
 import Firebase
 
 struct ContentView: View {
-
+    @AppStorage("uuid") var uuid = ""
 //    @State private var showSignupView = false
     var body: some View {
         ZStack{
@@ -72,6 +72,7 @@ struct ContentView: View {
 
                       guard let user = result?.user,
                         let idToken = user.idToken?.tokenString
+                                
                       else {
                           return
                       }
@@ -86,6 +87,7 @@ struct ContentView: View {
                             
 
                             print("Sign IN")
+                            uuid = (result?.user.uid)!
                             UserDefaults.standard.set(true, forKey: "signIn")
                         }
                     }

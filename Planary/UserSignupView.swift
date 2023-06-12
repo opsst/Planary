@@ -33,7 +33,7 @@ struct UserSignupView: View {
 //    @State private var selection = 0
     
     @AppStorage("name") var name = ""
-    
+    @AppStorage("oldname") var oldname = ""
     @AppStorage("day") var day = ""
     @AppStorage("month") var month = ""
     @AppStorage("year") var year = ""
@@ -53,8 +53,8 @@ struct UserSignupView: View {
     
     @AppStorage("selectedPoundIndex") private var selectedPoundIndex = 60
     @AppStorage("selectedKilogramIndex") var selectedKilogramIndex = 60
-    
-    
+    @AppStorage("haveInfo") var isInfo = false
+    var frank = 0
     var body: some View {
         
 
@@ -778,7 +778,7 @@ struct UserSignupView: View {
 //
                     
                     print(name)
-                    
+                    oldname=name
                     print(day)
                     print(month)
                     print(year)
@@ -789,9 +789,37 @@ struct UserSignupView: View {
                     
                     print(selection)
                     
+                    if selection == 0 {
+                        //Height
+                        var cm = Float(selectedFeetIndex+3)*30 + Float(selectedInchesIndex)*2.5
+                        cm = ceil(cm)
+                        selectedCentimeterIndex = Int(cm)-100
+                        
+                        //Weight
+                        var kg = Float(selectedPoundIndex+65)/2.2
+                        kg = ceil(kg)
+                        selectedKilogramIndex = Int(kg)-30
+                    }
+                    else{
+                        //Height
+                        var feet = (selectedCentimeterIndex+100)/30
+                        var myinch = Float((selectedCentimeterIndex+100)-feet*30)/2.5
+                        myinch = ceil(myinch)
+                        var inch = Int(myinch)
+                        selectedFeetIndex = Int(feet)-3
+                        selectedInchesIndex = Int(inch)
+                        
+                        //Weight
+                        var lb = Float(selectedKilogramIndex+30)*2.2
+                        lb = ceil(lb)
+                        selectedPoundIndex = Int(lb)-65
+                        
+                    }
                     print(selectedFeetIndex)
                     print(selectedInchesIndex)
                     print(selectedCentimeterIndex)
+                    
+                    
                     print(selectedPoundIndex)
                     print(selectedKilogramIndex)
                
@@ -849,10 +877,10 @@ struct UserSignupView_Previews: PreviewProvider {
 struct FeetInchesView: View {
     @AppStorage("selectedFeetIndex") var selectedFeetIndex: Int = 3
     @AppStorage("selectedInchesIndex") var selectedInchesIndex: Int = 6
-    
+    @AppStorage("selectedCentimeterIndex") var selectedCentimeterIndex = 60
     let feetOptions = Array(3...8)
     let inchesOptions = Array(0...11)
-    
+    @AppStorage("frank") var frank: Int = 0
     var body: some View {
         VStack (alignment: .leading){
             HStack(alignment: .top) {
@@ -864,6 +892,10 @@ struct FeetInchesView: View {
                             .foregroundColor(Color.white)
                             .tag(index)
                     }
+                }
+                .onChange(of: selectedFeetIndex) {
+                    newValue in (selectedCentimeterIndex = Int(ceil(Float(newValue)*30))-10)
+                    print(selectedCentimeterIndex)
                 }
                 .pickerStyle(WheelPickerStyle())
                 .frame(width: 150)
@@ -877,6 +909,12 @@ struct FeetInchesView: View {
                             .tag(index)
                     }
                 }
+                .onChange(of: selectedInchesIndex) {
+                    newValue in (frank = Int(ceil(Float(newValue)*2.5)))
+                    selectedCentimeterIndex = (Int(ceil(Float(selectedFeetIndex)*30))-10) + (Int(ceil(Float(newValue)*2.5)))
+                    print(selectedCentimeterIndex)
+                    
+                }
                 .pickerStyle(WheelPickerStyle())
                 .frame(width: 150)
             }
@@ -887,8 +925,10 @@ struct FeetInchesView: View {
 
 struct CentimeterView: View {
     @AppStorage("selectedCentimeterIndex") var selectedCentimeterIndex = 60
+    @AppStorage("selectedFeetIndex") var selectedFeetIndex: Int = 3
+    @AppStorage("selectedInchesIndex") var selectedInchesIndex: Int = 6
     
-    let centimeterOptions = Array(100...200)
+    let centimeterOptions = Array(100...300)
     
     var body: some View {
         VStack {
@@ -904,6 +944,10 @@ struct CentimeterView: View {
             .pickerStyle(WheelPickerStyle())
             .frame(width: 100)
             .padding()
+            .onChange(of: selectedCentimeterIndex) {
+                newValue in (selectedFeetIndex = Int(Float(newValue)/30)-3)
+//                selectedInchesIndex = Int(Float((selectedCentimeterIndex+100)-selectedFeetIndex*30)/2.5)
+            }
         }
     }
 }
@@ -911,13 +955,14 @@ struct CentimeterView: View {
 
 struct PoundView: View {
     @AppStorage("selectedPoundIndex") private var selectedPoundIndex = 60
-    
+    @AppStorage("selectedKilogramIndex") var selectedKilogramIndex = 60
 
     let poundOptions = Array(65...440)
     var body: some View {
         VStack {
             // Pound Picker
             Picker("Pound", selection: $selectedPoundIndex) {
+                
                 ForEach(0..<poundOptions.count) { index in
                     Text("\(poundOptions[index]) lb")
                         .font(.custom("Inter-Regular_Bold", size: 16))
@@ -928,13 +973,16 @@ struct PoundView: View {
             .pickerStyle(WheelPickerStyle())
             .frame(width: 100)
             .padding()
+            .onChange(of: selectedPoundIndex) {
+                newValue in (selectedKilogramIndex = Int(ceil(Float(newValue)/2.2))-1)
+            }
         }
     }
 }
 
 struct KilogramView: View {
     @AppStorage("selectedKilogramIndex") var selectedKilogramIndex = 60
-    
+    @AppStorage("selectedPoundIndex") private var selectedPoundIndex = 60
     let kilogramOptions = Array(30...200)
     
     var body: some View {
@@ -950,6 +998,10 @@ struct KilogramView: View {
             }
             .pickerStyle(WheelPickerStyle())
             .frame(width: 100)
+            .onChange(of: selectedKilogramIndex) {
+                newValue in (selectedPoundIndex = Int(ceil(Float(newValue)*2.2))+1)
+                
+            }
             .padding()
         }
     }
