@@ -18,21 +18,14 @@ struct EditProfileView: View {
     @State private var showAlert = false
     
     @AppStorage("name") var name = ""
-    
     @AppStorage("day") var day = ""
     @AppStorage("month") var month = ""
     @AppStorage("year") var year = ""
-    
     @AppStorage("goal") var goal = 0
-    
     @AppStorage("gender") var gender = 0
-    
     @AppStorage("diet") var diet = 0
-    
     @AppStorage("selection") var selection = 0
-    
     @AppStorage("uuid") var uuid = ""
-    
     @AppStorage("imageData") var imageData: String = ""
     
     let radius: CGFloat = CGFloat(10)
@@ -357,7 +350,7 @@ struct EditProfileView: View {
                             showAlert.toggle()
                             
                         } .alert(isPresented: $showAlert) {
-                            Alert(title: Text("Alert"), message: Text(self.StatusMessage), dismissButton: .default(Text("OK")))
+                            Alert(title: Text("Saving Image"), message: Text(self.StatusMessage=="" ? "Waiting..." : self.StatusMessage), dismissButton: .default(Text("OK")))
                         }
                     
                    
