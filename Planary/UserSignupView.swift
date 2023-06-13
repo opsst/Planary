@@ -436,7 +436,7 @@ struct UserSignupView: View {
                     ZStack{
                         Color(UIColor(red: 0.096, green: 0.095, blue: 0.095, alpha: 1.0))
                         VStack(alignment: .leading){
-                            Text("When is your")
+                            Text("What's your")
                                 .font(.custom("Poppins-SemiBold", size: 32))
                                 .foregroundColor(Color.white)
                                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -513,7 +513,7 @@ struct UserSignupView: View {
                     ZStack{
                         Color(UIColor(red: 0.096, green: 0.095, blue: 0.095, alpha: 1.0))
                         VStack(alignment: .leading){
-                            Text("When is your")
+                            Text("What's your")
                                 .font(.custom("Poppins-SemiBold", size: 32))
                                 .foregroundColor(Color.white)
                                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -746,6 +746,7 @@ struct UserSignupView: View {
                     
                 }
                 .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+                
                 .animation(.easeInOut,value: selectedTab)
                 .transition(.slide)
                 

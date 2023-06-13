@@ -13,6 +13,9 @@ struct HomeView: View {
     @AppStorage("signIn") var isSignIn = false
 
     @State var progressValue: Float = 0.0
+    @State private var isPresented = false
+    @State private var showModal = false
+    @State var overEat = false
     
     @AppStorage("name") var name = ""
     
@@ -45,8 +48,10 @@ struct HomeView: View {
     @AppStorage("fat") var fat = 0
     @AppStorage("maxfat") var maxfat = 50
     
-    @AppStorage("food") var food = 150
+    @AppStorage("food") var food = 0
     @AppStorage("burn") var burn = 0
+    
+    
     
     
     let feetOptions = Array(3...8)
@@ -63,15 +68,26 @@ struct HomeView: View {
         
         // Calculate BMR based on Harris-Benedict equation
         var bmr: Double = 0.0
+        var thisgoal: Double = 0.0
+        if(goal == 1){
+            thisgoal = -500.0
+        } else if goal == 3 {
+            thisgoal = 500.0
+        }
         
-        
+        print(thisgoal)
         if isMale {
-            bmr = 66 + (6.23 * weightInPounds) + (12.7 * heightInInches) - (6.8 * Double(age))
+            bmr = 66 + (6.23 * weightInPounds) + (12.7 * heightInInches) - (6.8 * Double(age)) + thisgoal
         } else {
-            bmr = 655 + (4.35 * weightInPounds) + (4.7 * heightInInches) - (4.7 * Double(age))
+            bmr = 655 + (4.35 * weightInPounds) + (4.7 * heightInInches) - (4.7 * Double(age)) + thisgoal
         }
         
         print(bmr)
+        if(Int(bmr) + burn < food){
+            overEat = true
+        }else {
+            overEat = false
+        }
         return bmr
     }
     
@@ -127,13 +143,24 @@ struct HomeView: View {
         print(weight , height, age ,isMale)
         // Calculate BMR based on Harris-Benedict equation
         var bmr: Double = 0.0
+        var thisgoal: Double = 0.0
+        if(goal == 1){
+            thisgoal = -500.0
+        } else if goal == 3 {
+            thisgoal = 500.0
+        }
         
         if isMale {
-            bmr = 66 + (13.75 * weightInKg) + (5 * heightInCm) - (6.75 * Double(age))
+            bmr = 66 + (13.75 * weightInKg) + (5 * heightInCm) - (6.75 * Double(age)) + thisgoal
         } else {
-            bmr = 655 + (9.56 * weightInKg) + (1.85 * heightInCm) - (4.68 * Double(age))
+            bmr = 655 + (9.56 * weightInKg) + (1.85 * heightInCm) - (4.68 * Double(age)) + thisgoal
         }
         print(bmr)
+        if(Int(bmr) + burn < food){
+            overEat = true
+        }else {
+            overEat = false
+        }
         return bmr
     }
     func calculateAge(day: Int, month: Int, year: Int) -> Int? {
@@ -185,24 +212,26 @@ struct HomeView: View {
                         Text("Calories")
                             .font(.custom("Inter-Regular_Bold", size: 20))
                             .foregroundColor(Color.white)
+                            .padding(.bottom, 10.0)
 
                         HStack {
                             Spacer()
                             ZStack (alignment: .center){
                                 VStack{
                                     Text(selection == 0 ?
-                                         String(Int(calculateBMR0(weight: Double(poundOptions[selectedPoundIndex]), heightFeet: Double(feetOptions[selectedFeetIndex]), heightInches: Double(inchesOptions[selectedInchesIndex]), age: calculateAge(day: Int(day) ?? 1, month: Int(month) ?? 1, year: Int(year) ?? 2000) ?? 20, isMale: (gender == 1))) - food + burn ) :
-                                            String(Int(calculateBMR1(weight: Double(kilogramOptions[selectedKilogramIndex]), height: Double(centimeterOptions[selectedCentimeterIndex]), age: calculateAge(day: Int(day) ?? 1, month: Int(month) ?? 1, year: Int(year) ?? 2000) ?? 20, isMale: Bool(gender == 1)))-food + burn )
+                                         String(abs(Int(calculateBMR0(weight: Double(poundOptions[selectedPoundIndex]), heightFeet: Double(feetOptions[selectedFeetIndex]), heightInches: Double(inchesOptions[selectedInchesIndex]), age: calculateAge(day: Int(day) ?? 1, month: Int(month) ?? 1, year: Int(year) ?? 2000) ?? 20, isMale: (gender == 1))) - food + burn ))
+                                         :
+                                            String(abs(Int(calculateBMR1(weight: Double(kilogramOptions[selectedKilogramIndex]), height: Double(centimeterOptions[selectedCentimeterIndex]), age: calculateAge(day: Int(day) ?? 1, month: Int(month) ?? 1, year: Int(year) ?? 2000) ?? 20, isMale: Bool(gender == 1)))-food + burn ))
                                     )
                                         .font(.custom("Poppins-Bold", size: 30))
                                         .foregroundColor(Color.white)
-                                    Text("KCAL LEFT")
+                                    Text(!overEat ? "KCAL LEFT" : "KCAL OVER")
                                         .font(.custom("Poppins-Medium", size: 10))
                                         .foregroundColor(Color.white)
                                         
                                 }
                                 .padding(.top)
-                                ProgressBar(progress: self.$progressValue)
+                                ProgressBar(progress: self.$progressValue, overEat: $overEat)
                                     .padding(.top, 20.0)
                                 .frame(width: 150)
                             }
@@ -279,15 +308,15 @@ struct HomeView: View {
                                 .font(.custom("Inter-Regular_SemiBold", size: 16))
                                 .foregroundColor(diet == 1 ? Color.green: diet == 2 ? Color.orange :Color.blue)
                         }
-                        .padding(.bottom, 40.0)
+                        .padding(.bottom, 30.0)
                         .foregroundColor(diet == 1 ? Color.green: diet == 2 ? Color.orange :Color.blue)
                         
                         HStack{
                
                             VStack{
                                 Text("Carbs")
-                                    .font(.custom("Inter-Regular_SemiBold", size: 12))
-                                    .foregroundColor(Color.white)
+                                    .font(.custom("Inter-Regular_Bold", size: 12))
+                                    .foregroundColor((Double(carbs) / Double(maxcarbs)) * 100 > 100 ? Color.red :Color.white)
                                     .padding(.bottom, 5.0)
                                 ZStack{
                                     ZStack(alignment: .leading){
@@ -295,23 +324,22 @@ struct HomeView: View {
                                             .frame(width: 100,height: 10)
                                             .foregroundColor(Color(hex: 0xFF454545).opacity(0.5))
                                         RoundedRectangle(cornerRadius: 20,style: .continuous)
-                                            .frame(width:carbs == 0 ? 0 :
-                                                    (CGFloat(carbs / maxcarbs) * 100) ,height: 10)
-                                            .foregroundColor(Color.white)
+                                            .frame(width:(Double(carbs) / Double(maxcarbs)) * 100 > 100 ? 100 :carbs == 0 ? 0 : CGFloat((Double(carbs) / Double(maxcarbs)) * 100) ,height: 10)
+                                            .foregroundColor((Double(carbs) / Double(maxcarbs)) * 100 > 100 ? Color.red :Color.white)
                                     }
                                     .animation(.linear, value: carbs)
                                 }
                                 .padding(.bottom, 5.0)
                                 Text("\(carbs) g / \(maxcarbs) g")
-                                    .font(.custom("Inter-Regular_SemiBold", size: 12))
-                                    .foregroundColor(Color.white)
+                                    .font(.custom("Inter-Regular_Bold", size: 12))
+                                    .foregroundColor((Double(carbs) / Double(maxcarbs)) * 100 > 100 ? Color.red :Color.white)
                                     .padding(.bottom, 5.0)
                             }
                             Spacer()
                             VStack{
                                 Text("Protein")
-                                    .font(.custom("Inter-Regular_SemiBold", size: 12))
-                                    .foregroundColor(Color.white)
+                                    .font(.custom("Inter-Regular_Bold", size: 12))
+                                    .foregroundColor((Double(protein) / Double(maxprotein)) * 100 > 100 ? Color.red : Color.white)
                                     .padding(.bottom, 5.0)
                                 ZStack{
                                     ZStack(alignment: .leading){
@@ -319,22 +347,22 @@ struct HomeView: View {
                                             .frame(width: 100,height: 10)
                                             .foregroundColor(Color(hex: 0xFF454545).opacity(0.5))
                                         RoundedRectangle(cornerRadius: 20,style: .continuous)
-                                            .frame(width: protein == 0 ? 0 :(CGFloat(protein * maxprotein) / 100) ,height: 10)
-                                            .foregroundColor(Color.white)
+                                            .frame(width:(Double(protein) / Double(maxprotein)) * 100 > 100 ? 100: protein == 0 ? 0 :CGFloat((Double(protein) / Double(maxprotein)) * 100.0) ,height: 10)
+                                            .foregroundColor((Double(protein) / Double(maxprotein)) * 100 > 100 ? Color.red : Color.white)
                                     }
                                     .animation(.linear, value: protein)
                                 }
                                 .padding(.bottom, 5.0)
                                 Text("\(protein) g / \(maxprotein) g")
                                     .font(.custom("Inter-Regular_SemiBold", size: 12))
-                                    .foregroundColor(Color.white)
+                                    .foregroundColor((Double(protein) / Double(maxprotein)) * 100 > 100 ? Color.red :Color.white)
                                     .padding(.bottom, 5.0)
                             }
                             Spacer()
                             VStack{
                                 Text("Fat")
                                     .font(.custom("Inter-Regular_SemiBold", size: 12))
-                                    .foregroundColor(Color.white)
+                                    .foregroundColor((Double(fat) / Double(maxfat)) * 100 > 100 ? Color.red :Color.white)
                                     .padding(.bottom, 5.0)
                                 ZStack{
                                     ZStack(alignment: .leading){
@@ -342,25 +370,32 @@ struct HomeView: View {
                                             .frame(width: 100,height: 10)
                                             .foregroundColor(Color(hex: 0xFF454545).opacity(0.5))
                                         RoundedRectangle(cornerRadius: 20,style: .continuous)
-                                            .frame(width: fat == 0 ? 0 : (CGFloat(fat * maxfat) / 100) ,height: 10)
-                                            .foregroundColor(Color.white)
+                                            .frame(width: (Double(fat) / Double(maxfat)) * 100 > 100 ? 100 :fat == 0 ? 0 : CGFloat((Double(fat) / Double(maxfat)) * 100) ,height: 10)
+                                            .foregroundColor((Double(fat) / Double(maxfat)) * 100 > 100 ? Color.red: Color.white)
                                     }
                                     .animation(.linear, value: fat)
                                 }
                                 .padding(.bottom, 5.0)
                                 Text("\(fat) g / \(maxfat) g")
                                     .font(.custom("Inter-Regular_SemiBold", size: 12))
-                                    .foregroundColor(Color.white)
+                                    .foregroundColor((Double(fat) / Double(maxfat)) * 100 > 100 ? Color.red : Color.white)
                                     .padding(.bottom, 5.0)
                             }
                             
 
                         }
                         .padding(.bottom, 20.0)
-                        Text("Goal")
-                            .font(.custom("Inter-Regular_Bold", size: 20))
-                        .foregroundColor(Color.white)
-                        .padding(.bottom, 10.0)
+                        HStack {
+                            Text("Goal ->")
+                                .font(.custom("Inter-Regular_Bold", size: 20))
+                                .foregroundColor(Color.white)
+                                .padding(.bottom, 10.0)
+                        
+                            Text(goal == 1 ? "On Cutting": goal == 2 ? "On Maintain" :"On Bulking")
+                                .font(.custom("Inter-Regular", size: 16))
+                                .foregroundColor(Color.white)
+                                .padding(.bottom, 10.0)
+                        }
                     
                         ZStack {
                             RoundedRectangle(cornerRadius: 16)
@@ -405,7 +440,52 @@ struct HomeView: View {
                             }
                             .frame(height: 260)
                         }
-                        .padding(.bottom, 30.0)
+                        .padding(.bottom, 20.0)
+                        HStack {
+                            Text("Exercise")
+                                .font(.custom("Inter-Regular_Bold", size: 20))
+                                .foregroundColor(Color.white)
+                                .padding(.bottom, 10.0)
+                        }
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 16)
+                                .fill(Color(hex:0xFF2B2B2B))
+                            .frame(height: 100)
+                            HStack{
+    
+                                Image(systemName: "dumbbell.fill")
+                                    .padding(.leading, 25.0)
+                                    .font(.system(size: 24))
+                                    .foregroundColor(Color(hex: 0xFFEB3800))
+//                                    .resizable()
+//                                    .padding(.top)
+//                                    .frame( maxWidth: 100,  maxHeight: 60)
+                                VStack (alignment: .leading){
+                                    Text("Daily Goal")
+                                        .font(.custom("Inter-Regular_Bold", size: 16))
+                                        .foregroundColor(Color.white)
+                                        .padding(.bottom, 1.0)
+                                    Text("\(burn) / 250 Kcal")
+                                        .font(.custom("Inter-Regular_Medium", size: 14))
+                                    .foregroundColor(Color.white)
+                                }
+                                .padding(.leading, 15.0)
+
+                                Spacer()
+                                NavigationLink(destination: FoodView())  {
+                                    Image(systemName: "plus")
+                                        .foregroundColor(Color(hex: 0xFFBC998E))
+
+                                        .font(.system(size:20,weight:.bold))
+                                        .frame(width: 40, height: 40)
+                                        .background(Color(hex: 0xFF515050))
+                                        .clipShape(Circle())
+                                        .padding(.trailing, 25.0)
+                                }
+                            }
+                            .frame(height: 100)
+                        }
+                        .padding(.bottom, 50.0)
             
                         Spacer()
                     }
@@ -422,18 +502,40 @@ struct HomeView: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.horizontal, 25.0)
                     NavigationLink(destination: FoodView())  {
-                                    Image(systemName: "plus")
-                                        .foregroundColor(Color(hex: 0xFFBC998E))
-                                        .font(.system(size:20,weight:.bold))
-                                        .frame(width: 40, height: 40)
-                                        .background(Color(hex: 0xFF515050))
-                                        .clipShape(Circle())
-                                        .padding(.bottom, 25.0)
-                                        .padding(.horizontal, 25.0)
+                        HStack {
+                            Image(systemName: "plus")
+    
+                            Text("Add Food")
                             
+
+                        }
+                        .foregroundColor(Color(hex: 0xFFBC998E))
+                        .font(.system(size:14,weight:.bold))
+                        .frame(width: 120, height: 40)
+                        .background(Color(hex: 0xFF515050))
+                        .clipShape(RoundedRectangle(cornerRadius: 14))
+                        .padding(.bottom, 25.0)
+                        .padding(.horizontal, 25.0)
+
                     }
+//                    Image(systemName: "plus")
+//                        .foregroundColor(Color(hex: 0xFFBC998E))
+//                        .font(.system(size:20,weight:.bold))
+//                        .frame(width: 40, height: 40)
+//                        .background(Color(hex: 0xFF515050))
+//                        .clipShape(Circle())
+//                        .onTapGesture{
+//                            showModal = true
+//                        }
+//                        .sheet(isPresented: $showModal){
+//
+//                        }
+//                        .padding(.bottom, 25.0)
+//                        .padding(.horizontal, 25.0)
+
+        
                 }
-                .padding(.top)
+                .padding(.vertical)
                     
 
 
@@ -455,6 +557,7 @@ struct HomeView_Previews: PreviewProvider {
 
 struct ProgressBar: View {
     @Binding var progress: Float
+    @Binding var overEat: Bool
     var color: Color = Color.green
     
     var body: some View{
@@ -466,15 +569,13 @@ struct ProgressBar: View {
             Circle()
                 .trim(from: 0.0,to: CGFloat(min(self.progress, 1.0)))
                 .stroke(style: StrokeStyle(lineWidth: 30,lineCap: .round, lineJoin: .round))
-                .foregroundColor(color)
+                .foregroundColor(!self.overEat ? color: Color.red)
                 .rotationEffect(Angle(degrees: 270))
                 .animation(.easeInOut(duration: 2))
         }
+        
     }
+    
 }
 
-struct FoodView: View {
-    var body: some View {
-        Text("Food View")
-    }
-}
+
